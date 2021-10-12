@@ -1,0 +1,18 @@
+.flex-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+#search_in {
+display: flex;
+    flex-direction: column;
+    list-style-type: none;
+
+}

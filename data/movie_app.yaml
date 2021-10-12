@@ -1,0 +1,11 @@
+db:
+  host: localhost
+  port: 4432
+  name: movie_db
+  user: user1
+  password: passwd
+
+movie_app:
+  logging: enabled
+  logfile: /tmp/movie_api.log
+  data_url: https://www.csfd.cz/zebricky/filmy/nejlepsi/?showMore=1

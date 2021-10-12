@@ -1,0 +1,13 @@
+<div class='flex-container'>
+            <h2>{{ movie.title }}</h2>
+
+    {% if movie.actors %}
+        <div class='column'>
+            <h4>Actors:</h4>
+            {% for actor in movie.actors %}
+                <li><a href='{{ url_for('actor_view', id_=actor.id) }}'> {{ actor.first_name }} {{ actor.last_name }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>

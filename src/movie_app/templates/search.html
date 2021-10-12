@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% from "_formhelpers.html" import render_field %}
+<form method=post>
+    <dl>
+        {{ render_field(form.search) }}
+        {{ render_field(form.search_in) }}
+    </dl>
+    <p><input type=submit value=Search>
+</form>
+
+<div class='flex-container'>
+    <div class='column'>
+        <h3>Movies:</h3>
+
+        {% if movies %}
+            <ul>
+                {% for movie in movies %}
+                    <li><a href='{{ url_for('movie_view', id_=movie.id) }}'> {{ movie.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No results</p>
+        {% endif %}
+    </div>
+
+    <div class='column'>
+        <h3>Actors:</h3>
+        {% if actors %}
+            <ul>
+                {% for actor in actors %}
+                    <li>
+                        <a href='{{ url_for('actor_view', id_=actor.id) }}'> {{ actor.first_name }} {{ actor.last_name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No results</p>
+        {% endif %}
+    </div>
+</div>
