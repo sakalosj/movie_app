@@ -47,6 +47,7 @@ def db_data():
 def init_db_with_data(init_db, sa_session, db_data):
     movies = [MovieModel(**movie) for movie in db_data['movies']]
     actors = [ActorModel(**actor) for actor in db_data['actors']]
+
     with sa_session() as s:
         s.add_all(movies + actors)
         s.commit()

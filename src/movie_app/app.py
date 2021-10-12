@@ -4,7 +4,7 @@ from db import db_session
 from movie_app.views.actor import ActorView
 from movie_app.views.movie import MovieView
 from movie_app.views.search import SearchView
-from src.app_config import app_config
+from app_config import app_config
 from log import setup_logging
 
 if app_config.is_logging_enabled():

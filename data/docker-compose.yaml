@@ -7,7 +7,7 @@ services:
       context: ..
 
     ports:
-      - 5000:5000
+      - 4000:4000
     depends_on:
       db:
         condition: service_healthy

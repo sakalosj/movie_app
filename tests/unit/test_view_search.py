@@ -5,46 +5,6 @@ import pytest
 from movie_app.views.search import SearchView
 
 
-# @pytest.mark.parametrize('search_in, m_called, a_called', [
-#     pytest.param(['movies', 'actor_first_name','actor_last_name'], 1, 1,
-#                  id='movies-first_name-last_name'),
-#     pytest.param(['movies', 'actor_first_name'], 1, 1, id='movies-first_name'),
-#     pytest.param(['movies', 'actor_last_name'], 1, 1, id='movies-last_name'),
-#     pytest.param(['movies'], 1, 0, id='movies'),
-#     pytest.param(['actor_first_name', 'actor_last_name'], 0, 1, id='first_name-last_name'),
-#     pytest.param(['actor_first_name'], 0, 1, id='first_name'),
-#     pytest.param(['actor_last_name'], 0, 1, id='last_name'),
-#     pytest.param([], 0, 0, id='empty'),
-#
-# ])
-# def test_post_search_in_movie(mocker, flask_app, search_in, m_called, a_called):
-#     """
-#     Testing if correct queries were called. Should be improved by checking call parameter not differentiating between
-#     """
-#     search_str = '_'
-#     search_view = SearchView()
-#     with flask_app.test_request_context():
-#         mocker.patch('movie_app.views.search.request')
-#     mocker.patch('movie_app.views.search.render_template')
-#     f = mocker.patch('movie_app.views.search.SearchForm')
-#     f.return_value.search_in.data = search_in
-#
-#     movie_model_mck = mocker.patch('movie_app.views.search.MovieModel')
-#     actor_model_mck = mocker.patch('movie_app.views.search.ActorModel')
-#
-#     # set paramters to values which can be used to check if ActorModel.search_by was called with correct parameters
-#     f.return_value.search.data = search_str
-#     actor_model_mck.first_name = 'actor_first_name'
-#     actor_model_mck.last_name = 'actor_last_name'
-#
-#     search_view.post()
-#
-#     assert m_called == movie_model_mck.search_by_title.call_count
-#     assert a_called == actor_model_mck.search_by.call_count
-#     if a_called:
-#         search_in_args = [i for i in search_in if i != 'movies']
-#         assert actor_model_mck.search_by.call_args.args == (search_str, search_in_args)
-
 @pytest.fixture
 def mock_search_view(mocker, flask_app):
     def factory(search_in, search_str):

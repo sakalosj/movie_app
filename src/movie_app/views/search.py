@@ -24,7 +24,6 @@ class SearchView(MethodView):
         form.search_in.data = search_choices.keys()
         return render_template('search.html', form=form)
 
-
     def post(self):
         form = SearchForm(request.form)
         actors, movies = None, None

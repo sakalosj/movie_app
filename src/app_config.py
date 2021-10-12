@@ -20,9 +20,9 @@ class DBConfigSchema(Schema):
 
 
 class MovieAppConfigSchema(Schema):
-    logging = fields.String(required=False, missing='enabled')
-    log_level = fields.Integer(required=False, missing=3)
-    logfile = fields.String(required=False, missing='enabled')
+    logging = fields.String(required=False, load_default='enabled')
+    log_level = fields.Integer(required=False, load_default=3)
+    logfile = fields.String(required=False, load_default='enabled')
     data_url = fields.String(required=True)
 
     @post_load

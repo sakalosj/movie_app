@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 ])
 def test_search_in(post_form, init_db_with_data, search_in, m_found, a_found):
     page = post_form('/',
-                     data='search=movie&'+ search_in)
+                     data='search=movie&'+search_in)
     soup = BeautifulSoup(page.data, "html.parser")
     movies = soup.find('h3', text='Movies:').parent.find_all('a')
     actors = soup.find('h3', text='Actors:').parent.find_all('a')

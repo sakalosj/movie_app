@@ -3,12 +3,13 @@ from sqlalchemy.orm import relationship
 from unidecode import unidecode
 
 from db import Base
-from db.db_helpers import Unaccent
+from db.db_utils import Unaccent
 
 movies2actors = sa.Table('movies2actors', Base.metadata,
-    sa.Column('movie_id', sa.ForeignKey('movies.id')),
-    sa.Column('actor_id', sa.ForeignKey('actors.id'))
-)
+                         sa.Column('movie_id', sa.ForeignKey('movies.id'), nullable=False),
+                         sa.Column('actor_id', sa.ForeignKey('actors.id'), nullable=False),
+                         sa.UniqueConstraint('movie_id', 'actor_id')
+                         )
 
 
 class MovieModel(Base):
@@ -16,7 +17,7 @@ class MovieModel(Base):
 
     id = sa.Column(sa.Integer, primary_key=True)
     title = sa.Column(sa.String, nullable=False, index=True)
-    link = sa.Column(sa.String, unique=True)
+    link = sa.Column(sa.String, unique=True, nullable=False)
 
     actors = relationship(
         'ActorModel',

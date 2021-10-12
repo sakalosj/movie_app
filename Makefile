@@ -12,7 +12,6 @@ $(VENV):
 	python3 -m venv $(VENV)
 	$(PIP) install -U pip
 	$(PIP) install -r requirements.txt
-	$(PIP) install -r requirements_dev.txt
 
 $(PIP) $(PYTHON): $(VENV)
 
@@ -24,18 +23,41 @@ help:
 install: $(PIP)
 	 $(PIP) install -e .
 
-# start
+#db_start: @ Starts app db with default port 4432 inside docker
 db_start:
-	docker run --name movie_db --rm -v ~/tmp/db_data/movie_app_db:/var/lib/postgresql/data -e POSTGRES_USER=user1 -e POSTGRES_PASSWORD=passwd -e POSTGRES_DB=movie_db -p 4432:5432 -d postgres
+	docker run --name movie_db --rm -v ~/tmp/db_data/movie_app_db:/var/lib/postgresql/data -e POSTGRES_USER=user1 \
+-e POSTGRES_PASSWORD=passwd -e POSTGRES_DB=movie_db -p 4432:5432 -v ${PWD}/data/init.sql:/docker-entrypoint-initdb.d/init.sql -d postgres
 
+#db_stop: @ Stops app db
 db_stop:
-	docker stop ace-postgres
+	docker stop movie_db
 
+#db_clean: @ Removes app db
 db_clean:
 	$(SUDO) rm -rf ~/tmp/db_data/movie_app_db
 
+#test_db_start: @ Starts test db with default port 4442 inside docker
 test_db_start:
-	docker run --name test_movie_db --rm -v ~/tmp/db_data/test_movie_app_db:/var/lib/postgresql/data -e POSTGRES_USER=user1 -e POSTGRES_PASSWORD=passwd -e POSTGRES_DB=movie_db -p 4442:5432 -d postgres
+	docker run --name test_movie_db --rm -v ~/tmp/db_data/test_movie_app_db:/var/lib/postgresql/data \
+-e POSTGRES_USER=user1 -e POSTGRES_PASSWORD=passwd -e POSTGRES_DB=movie_db \
+-v ${PWD}/data/init.sql:/docker-entrypoint-initdb.d/init.sql  -p 4442:5432 -d postgres
 
-web_start:
-	gunicorn -w 4 -b 127.0.0.1:4000 movie_app.app:app
+#test_db_stop: @ Stops test db
+test_db_stop:
+	docker stop test_movie_db
+
+#test_db_clean: @ Removes test db
+test_db_clean:
+	$(SUDO) rm -rf ~/tmp/db_data/test/movie_app_db
+
+#web_start: @ Starts app using gunicorn
+web_start:  $(VENV)
+	gunicorn -w 4 -b 0.0.0.0:4000 movie_app.app:app --daemon
+
+#unit_test: @ Executes unit tests
+unit_tests:
+	MOVIE_CFG=./tests/data/test_movie_app.yaml pytest --cov=src tests/unit/
+
+#integration_test: @ Executes integration tests
+integration_tests:
+	MOVIE_CFG=./tests/data/test_movie_app.yaml pytest --cov=src tests/integration/
